@@ -1,3 +1,34 @@
+# Runtime Log Level Management UI
+
+A React-based web interface for dynamically managing application log levels in real-time. This tool provides a user-friendly dashboard to control logging levels across different packages and classes in your application.
+
+## Features
+
+- 📊 Real-time log level management
+- 🎯 Package/class-specific logging control
+- 🎨 Intuitive color-coded interface
+- 🔄 Quick reset functionality
+- 🔍 Logger filtering capabilities
+- 💡 Visual feedback for active log levels
+
+## Log Levels
+
+The application supports standard logging levels:
+
+- `OFF` - Turn off logging
+- `ERROR` - Error events that might still allow the application to continue running
+- `WARN` - Potentially harmful situations
+- `INFO` - Informational messages highlighting application progress
+- `DEBUG` - Detailed information for debugging
+- `TRACE` - Most detailed level of logging
+
+## Getting Started
+
+1. Install dependencies:
+```bash
+npm install
+```
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
