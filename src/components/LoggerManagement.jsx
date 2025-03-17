@@ -14,24 +14,24 @@ const dummyLoggers = [
         path: 'com'
     },
     {
-        name: 'com.baeldung',
+        name: 'com.fedex',
         level: 'DEBUG',
-        path: 'com.baeldung'
+        path: 'com.fedex'
     },
     {
-        name: 'com.baeldung.spring',
+        name: 'com.fedex.spring',
         level: 'INFO',
-        path: 'com.baeldung.spring'
+        path: 'com.fedex.spring'
     },
     {
-        name: 'com.baeldung.spring.boot',
+        name: 'com.fedex.spring.boot',
         level: 'WARN',
-        path: 'com.baeldung.spring.boot'
+        path: 'com.fedex.spring.boot'
     },
     {
-        name: 'com.baeldung.spring.boot.management',
+        name: 'com.fedex.spring.boot.management',
         level: 'ERROR',
-        path: 'com.baeldung.spring.boot.management'
+        path: 'com.fedex.spring.boot.management'
     }
 ];
 

@@ -1,17 +1,26 @@
 import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Navigation from './components/Navigation';
+import LoggerDashboard from './components/LoggerDashboard';
 import LoggerManagement from './components/LoggerManagement';
 import './App.css';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <span>Spring Boot Admin</span>
-      </header>
-      <main>
-        <LoggerManagement />
-      </main>
-    </div>
+    <Router>
+      <div className="App">
+        <header className="App-header">
+          <span className="running-text">Fedex Log Level Management</span>
+          <Navigation />
+        </header>
+        <main>
+          <Routes>
+            <Route path="/" element={<LoggerDashboard />} />
+            <Route path="/logger/:app/:type" element={<LoggerManagement />} />
+          </Routes>
+        </main>
+      </div>
+    </Router>
   );
 }
 
