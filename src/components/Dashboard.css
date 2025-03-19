@@ -1,0 +1,54 @@
+.logger-dashboard {
+  padding: 20px;
+}
+
+.dashboard-container {
+  margin-top: 20px;
+}
+
+.app-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.app-card {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  transition: transform 0.2s ease;
+}
+
+.app-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.app-title {
+  margin: 0 0 10px 0;
+  color: #333;
+}
+
+.app-description {
+  color: #666;
+  margin-bottom: 15px;
+}
+
+.link-button {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s;
+  width: 100%;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.link-button:hover {
+  background: #0056b3;
+}

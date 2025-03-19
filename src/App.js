@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navigation from './components/Navigation';
 import LoggerDashboard from './components/LoggerDashboard';
 import LoggerManagement from './components/LoggerManagement';
+import ServicesList from './components/ServicesList';
 import './App.css';
 
 function App() {
@@ -16,7 +17,8 @@ function App() {
         <main>
           <Routes>
             <Route path="/" element={<LoggerDashboard />} />
-            <Route path="/logger/:app/:type" element={<LoggerManagement />} />
+            <Route path="/logger/:app/services" element={<ServicesList />} />
+            <Route path="/logger/:app/service/:serviceId/logs" element={<LoggerManagement />} />
           </Routes>
         </main>
       </div>

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import BackButton from './BackButton';
 import './LoggerManagement.css';
 
 // Move dummyLoggers outside the component to avoid recreation on each render
@@ -106,6 +107,7 @@ const LoggerManagement = () => {
     // Rest of the component remains the same
     return (
         <div className="logger-management">
+            <BackButton />
             <div className="header">
                 <div className="filters">
                     <label>
