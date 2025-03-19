@@ -107,3 +107,62 @@ npm install @dnd-kit/core @dnd-kit/sortable @dnd-kit/utilities --force
 npm install react-beautiful-dnd
 npm install react-beautiful-dnd --legacy-peer-deps
 npm install @dnd-kit/core @dnd-kit/sortable @dnd-kit/utilities --legacy-peer-deps
+
+=====================================================================================
+Required commands
+
+# Install dependencies
+npm install
+
+# Install drag and drop dependencies
+npm install @dnd-kit/core @dnd-kit/sortable @dnd-kit/utilities --legacy-peer-deps
+
+# Start the development server
+npm start
+
+# Build for production
+npm run build
+
+# Run the tests
+npm test
+
+# Run the tests with coverage
+npm run test:coverage
+
+npm install -g serve
+
+# Install React Router for navigation
+npm install react-router-dom
+
+# Install styling dependencies
+npm install styled-components
+
+# Install for handling HTTP requests
+npm install axios
+
+# Development with specific port
+npm start -- --port 3001
+
+# Build with source maps
+npm run build -- --profile
+
+# Run ESLint
+npm run lint
+
+# Fix ESLint issues automatically
+npm run lint -- --fix
+
+# Clear npm cache if facing installation issues
+npm cache clean --force
+
+# Install dependencies with exact versions
+npm ci
+
+# Update all dependencies to latest versions
+npm update
+
+# Check for outdated packages
+npm outdated
+
+# Run in production mode locally
+serve -s build
