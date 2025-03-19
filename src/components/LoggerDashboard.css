@@ -1,0 +1,47 @@
+.logger-dashboard {
+  padding: 20px;
+}
+
+.app-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  min-height: 100px;
+  padding: 20px;
+}
+
+.app-card {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.app-card.dragging {
+  background: white;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  opacity: 0.9;
+  transform: scale(1.05);
+}
+
+.dragging-over {
+  background-color: rgba(0, 0, 0, 0.02);
+  border-radius: 8px;
+}
+
+.app-card h2 {
+  margin: 0 0 10px 0;
+  color: #333;
+}
+
+.app-card p {
+  color: #666;
+  margin-bottom: 15px;
+}
+
+.primary-button {
+  width: 100%;
+  margin-top: 10px;
+}

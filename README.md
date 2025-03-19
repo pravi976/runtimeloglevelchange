@@ -103,3 +103,7 @@ npm install react-beautiful-dnd --legacy-peer-deps
 npm install @dnd-kit/core @dnd-kit/sortable @dnd-kit/utilities
 
 npm install @dnd-kit/core @dnd-kit/sortable @dnd-kit/utilities --force
+
+npm install react-beautiful-dnd
+npm install react-beautiful-dnd --legacy-peer-deps
+npm install @dnd-kit/core @dnd-kit/sortable @dnd-kit/utilities --legacy-peer-deps

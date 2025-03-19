@@ -1,12 +1,62 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from '@dnd-kit/core';
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  useSortable,
+  rectSortingStrategy,
+} from '@dnd-kit/sortable';
 import BackButton from './BackButton';
 import './ServicesList.css';
 
+function SortableItem({ service, app }) {
+  const navigate = useNavigate();
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+  } = useSortable({ id: service.id });
+
+  const style = {
+    transform: transform ? `translate3d(${transform.x}px, ${transform.y}px, 0)` : undefined,
+    transition,
+  };
+
+  return (
+    <div
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      className="app-card"
+    >
+      <div {...listeners} className="drag-handle">
+        <h2>{service.name}</h2>
+        <p>{service.description}</p>
+      </div>
+      <button
+        className="primary-button"
+        onClick={() => navigate(`/logger/${app}/service/${service.id}/logs`)}
+      >
+        Click here to view/change log level
+      </button>
+    </div>
+  );
+}
+
 function ServicesList() {
   const { app } = useParams();
-  const navigate = useNavigate();
-  const services = {
+  const [services, setServices] = useState({
     'C6.4': [
       { id: 1, name: 'Authentication Service', description: 'User authentication and authorization' },
       { id: 2, name: 'Data Processing Service', description: 'Core data processing functionality' },
@@ -24,37 +74,53 @@ function ServicesList() {
       { id: 1, name: 'Data Integration', description: 'Data integration service' },
       { id: 2, name: 'Analytics Service', description: 'Data analytics and processing' }
     ]
-  };
+  });
 
-  if (!services[app]) {
-    return <div className="logger-dashboard">
-      <BackButton />
-      <h1>No services found for {app}</h1>
-    </div>;
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
+
+  function handleDragEnd(event) {
+    const { active, over } = event;
+
+    if (active.id !== over.id) {
+      setServices((prevServices) => {
+        const currentServices = [...prevServices[app]];
+        const oldIndex = currentServices.findIndex(item => item.id === active.id);
+        const newIndex = currentServices.findIndex(item => item.id === over.id);
+        
+        const reorderedServices = arrayMove(currentServices, oldIndex, newIndex);
+        
+        return {
+          ...prevServices,
+          [app]: reorderedServices
+        };
+      });
+    }
   }
 
   return (
     <div className="services-page">
+      <BackButton />
       <div className="page-header">
         <h1>{app} Services</h1>
       </div>
-      <BackButton />
-      <div className="services-container app-grid">
-        {services[app].map((service) => (
-          <div key={service.id} className="app-card">
-            <h2>{service.name}</h2>
-            <p>{service.description}</p>
-            <div className="link-container">
-              <button
-                className="primary-button"
-                onClick={() => navigate(`/logger/${app}/service/${service.id}/logs`)}
-              >
-                Click here to view/change log level
-              </button>
-            </div>
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragEnd={handleDragEnd}
+      >
+        <SortableContext items={services[app]?.map(service => service.id)} strategy={rectSortingStrategy}>
+          <div className="services-container app-grid">
+            {services[app]?.map((service) => (
+              <SortableItem key={service.id} service={service} app={app} />
+            ))}
           </div>
-        ))}
-      </div>
+        </SortableContext>
+      </DndContext>
     </div>
   );
 }
