@@ -166,3 +166,90 @@ npm outdated
 
 # Run in production mode locally
 serve -s build
+
+### 1. Application Overview
+This is a React-based Runtime Log Level Management UI application that allows users to manage logging levels across different applications and services. The main purpose is to provide a user-friendly interface for controlling log levels in real-time.
+
+### 2. Project Structure Core Components
+1. `App.js`
+- Main application component
+- Uses React Router for navigation
+- Contains three main routes:
+  - Root path ( / ): LoggerDashboard
+  - Services list ( /logger/:app/services )
+  - Logger management ( /logger/:app/service/:serviceId/logs )
+2. `LoggerDashboard.js`
+- Displays a grid of applications (C6.4, C2.4, C4, GPDE1.10)
+- Implements drag-and-drop functionality for reordering apps
+- Uses DndContext for drag-and-drop operations
+### 3. Configuration Files
+1. `loggerConfig.js`
+- Defines navigation links for different logging features
+- Contains three main sections:
+  - Runtime Log Level
+  - Log Configuration
+  - Log Analysis
+2. `loggerApps.js`
+- Defines the available applications
+- Each app has:
+  - Unique ID
+  - Name
+  - Description
+  - Navigation links
+### 4. Features
+1. Log Level Management
+- Supports standard logging levels:
+  - OFF
+  - ERROR
+  - WARN
+  - INFO
+  - DEBUG
+  - TRACE
+2. Drag and Drop Functionality
+- Implemented in both LoggerDashboard and ServicesList
+- Uses @dnd-kit library for smooth drag-and-drop operations
+- Maintains state order after reordering
+3. Routing System
+- Hierarchical routing structure
+- Dynamic parameters for app and service IDs
+- Nested navigation capabilities
+### 5. Styling
+The application uses a combination of:
+
+- CSS modules
+- Styled-components (as indicated in dependencies)
+- Custom CSS with:
+  - Gradient backgrounds
+  - Responsive design
+  - Interactive hover effects
+  - Table styling
+  - Fixed header with animation
+### 6. Development Setup
+- Uses Create React App
+- Dependencies include:
+  - axios for HTTP requests
+  - styled-components for styling
+  - React Router for navigation
+  - Testing utilities
+### 7. Areas for Improvement
+1. Testing Coverage
+- Current test in `App.test.js` is basic
+- Need more comprehensive test coverage
+2. Configuration Issues
+- Logger paths in `loggerApps.js` all point to the same path ( /logger/C6.4/logs )
+- Should be unique for each application
+3. State Management
+- Currently using local state
+- Might benefit from a global state management solution for larger scale
+4. Error Handling
+- No visible error boundaries or error handling mechanisms
+- Should implement proper error handling for API calls
+### 8. Development Workflow
+The project includes various npm scripts for:
+
+- Development ( npm start )
+- Testing ( npm test )
+- Building ( npm run build )
+- Linting ( npm run lint )
+- Code coverage ( npm run test:coverage )
+This application provides a solid foundation for log level management but could benefit from additional features and improvements in testing and error handling.
