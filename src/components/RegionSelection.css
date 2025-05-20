@@ -1,0 +1,35 @@
+.region-selection-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.regions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.region-card {
+  background: linear-gradient(135deg, #8e44ad, #e67e22);
+  border-radius: 10px;
+  padding: 20px;
+  color: white;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+  text-align: center;
+}
+
+.region-card:hover {
+  transform: translateY(-5px);
+}
+
+.region-card h2 {
+  margin: 0 0 10px 0;
+}
+
+.region-card p {
+  margin: 0;
+  opacity: 0.8;
+}

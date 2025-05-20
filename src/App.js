@@ -4,6 +4,7 @@ import Navigation from './components/Navigation';
 import LoggerDashboard from './components/LoggerDashboard';
 import LoggerManagement from './components/LoggerManagement';
 import ServicesList from './components/ServicesList';
+import RegionSelection from './components/RegionSelection';
 import './App.css';
 
 function App() {
@@ -18,7 +19,8 @@ function App() {
           <Routes>
             <Route path="/" element={<LoggerDashboard />} />
             <Route path="/logger/:app/services" element={<ServicesList />} />
-            <Route path="/logger/:app/service/:serviceId/logs" element={<LoggerManagement />} />
+            <Route path="/logger/:app/service/:serviceId/regions" element={<RegionSelection />} />
+            <Route path="/logger/:app/service/:serviceId/region/:regionId/logs" element={<LoggerManagement />} />
           </Routes>
         </main>
       </div>

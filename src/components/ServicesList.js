@@ -46,7 +46,7 @@ function SortableItem({ service, app }) {
       </div>
       <button
         className="primary-button"
-        onClick={() => navigate(`/logger/${app}/service/${service.id}/logs`)}
+        onClick={() => navigate(`/logger/${app}/service/${service.id}/regions`)}
       >
         Click here to view/change log level
       </button>
