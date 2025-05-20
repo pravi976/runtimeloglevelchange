@@ -40,7 +40,7 @@ class LoggerService {
         method: 'post',
         url: `${endpoint.updateUrl}`,
         params: {
-          LoggerName: encodedLoggerName,  // Changed from 'loggerName' to 'LoggerName'
+          LoggerName: encodedLoggerName,
           level: level
         },
         headers: {
@@ -49,6 +49,9 @@ class LoggerService {
       });
       return response.data;
     } catch (error) {
+      if (error.message === 'Network Error') {
+        throw new Error('Unable to connect to the server. Please ensure the backend service is running.');
+      }
       if (error.response) {
         console.error('Error response:', error.response.data);
         throw new Error(`Failed to update logger: ${error.response.data.message || error.message}`);
