@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   DndContext,
@@ -62,12 +62,23 @@ function SortableItem({ app }) {
 }
 
 function LoggerDashboard() {
-  const [apps, setApps] = useState([
-    { id: 'C6.4', name: 'C6.4', description: 'Core services application' },
-    { id: 'C2.4', name: 'C2.4', description: 'API services application' },
-    { id: 'C4', name: 'C4', description: 'Monitoring application' },
-    { id: 'GPDE1.10', name: 'GPDE1.10', description: 'Data processing application' }
-  ]);
+  const [apps, setApps] = useState(() => {
+    const savedApps = localStorage.getItem('dashboardApps');
+    if (savedApps) {
+      return JSON.parse(savedApps);
+    }
+    return [
+      { id: 'C6.4', name: 'C6.4', description: 'Core services application' },
+      { id: 'C2.4', name: 'C2.4', description: 'API services application' },
+      { id: 'C4', name: 'C4', description: 'Monitoring application' },
+      { id: 'GPDE1.10', name: 'GPDE1.10', description: 'Data processing application' }
+    ];
+  });
+
+  // Save to localStorage whenever apps state changes
+  useEffect(() => {
+    localStorage.setItem('dashboardApps', JSON.stringify(apps));
+  }, [apps]);
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -90,9 +101,9 @@ function LoggerDashboard() {
 
   return (
     <div className="logger-dashboard">
-      <div className="page-header">
-        <h1>Runtime Log Level Change</h1>
-      </div>
+      {/* <div className="page-header">
+        <h1>Change Log Level At Run Time</h1>
+      </div> */}
       <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}

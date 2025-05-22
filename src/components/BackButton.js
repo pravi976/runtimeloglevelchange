@@ -1,15 +1,36 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import './BackButton.css';
 
 function BackButton() {
   const navigate = useNavigate();
+  const { app, serviceId, regionId } = useParams();
+  const location = useLocation();
 
   const handleBack = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    navigate('/', { replace: true });
+    
+    // Determine the previous page based on current route
+    if (location.pathname === '/') {
+      // On dashboard, no back navigation needed
+      return;
+    } else if (location.pathname.includes('/logs')) {
+      // From logs page to regions page
+      navigate(`/logger/${app}/service/${serviceId}/regions`);
+    } else if (location.pathname.includes('/regions')) {
+      // From regions page to services page
+      navigate(`/logger/${app}/services`);
+    } else if (location.pathname.includes('/services')) {
+      // From services page to dashboard
+      navigate('/');
+    }
   };
+
+  // Don't show back button on dashboard
+  if (location.pathname === '/') {
+    return null;
+  }
 
   return (
     <button className="back-button" onClick={handleBack}>
