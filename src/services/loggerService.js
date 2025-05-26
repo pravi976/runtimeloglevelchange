@@ -3,14 +3,12 @@ import { loggerEndpoints } from '../config/loggerEndpoints';
 
 class LoggerService {
   parseLoggerData(data) {
-    return data.map(item => {
-      const [name, level] = item.split(' - ');
-      return {
-        name: name.startsWith('_') ? name.substring(1) : name,
-        level: level === 'null' ? 'DEBUG' : level,
-        path: name.startsWith('_') ? name.substring(1) : name
-      };
-    });
+    // Convert the actuator response format to our app's format
+    return Object.entries(data.loggers).map(([name, config]) => ({
+      name: name.startsWith('_') ? name.substring(1) : name,
+      level: config.effectiveLevel || 'DEBUG',
+      path: name.startsWith('_') ? name.substring(1) : name
+    }));
   }
 
   async getLoggers(appName) {
