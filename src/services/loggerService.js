@@ -38,10 +38,9 @@ class LoggerService {
       const encodedLoggerName = encodeURIComponent(loggerName);
       const response = await axios({
         method: 'post',
-        url: `${endpoint.updateUrl}`,
-        params: {
-          LoggerName: encodedLoggerName,
-          level: level
+        url: `${endpoint.updateUrl}/${encodedLoggerName}`,
+        data: {
+          configuredLevel: level
         },
         headers: {
           'Content-Type': 'application/json'
