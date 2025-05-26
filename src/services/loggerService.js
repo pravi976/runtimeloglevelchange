@@ -7,7 +7,7 @@ class LoggerService {
       const [name, level] = item.split(' - ');
       return {
         name: name.startsWith('_') ? name.substring(1) : name,
-        level: level === 'null' ? 'INFO' : level,
+        level: level === 'null' ? 'DEBUG' : level,
         path: name.startsWith('_') ? name.substring(1) : name
       };
     });

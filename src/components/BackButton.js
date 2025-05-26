@@ -4,7 +4,7 @@ import './BackButton.css';
 
 function BackButton() {
   const navigate = useNavigate();
-  const { app, serviceId, regionId } = useParams();
+  const { app, serviceId } = useParams();
   const location = useLocation();
 
   const handleBack = (e) => {
