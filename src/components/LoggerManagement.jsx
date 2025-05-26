@@ -1,8 +1,13 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import BackButton from './BackButton';
 import loggerService from '../services/loggerService';
 import './LoggerManagement.css';
+import LoggerPage from './LoggerPage';
+
+// Add missing constants
+const timerOptions = [1, 2, 3]; // Timer duration options in minutes
+const logLevels = ['ERROR', 'WARN', 'INFO', 'DEBUG', 'TRACE']; // Available log levels
 
 const LoggerManagement = () => {
     const { app } = useParams();
@@ -14,40 +19,37 @@ const LoggerManagement = () => {
         classOnly: false,
         configured: false
     });
-    const logLevels = ['OFF', 'ERROR', 'WARN', 'INFO', 'DEBUG', 'TRACE'];
+    const [globalTimer, setGlobalTimer] = useState(1); // Default 1 minute
+    const [originalLevels, setOriginalLevels] = useState({});
+    const [timerEndTime, setTimerEndTime] = useState(null);
+    const [activeTimer, setActiveTimer] = useState(null);
+    const [timeRemaining, setTimeRemaining] = useState(null);
+    const [lastChangedLogger, setLastChangedLogger] = useState(null);
+    const [filteredLoggers, setFilteredLoggers] = useState([]); // Add missing state
 
-    const fetchLoggers = useCallback(async () => {
+    // Add missing functions
+    const fetchLoggers = async () => {
         try {
-            setLoading(true);
             const data = await loggerService.getLoggers(app);
             setLoggers(data);
-            setError(null);
+            setFilteredLoggers(data);
+            setLoading(false);
         } catch (err) {
             setError(`Failed to fetch loggers: ${err.message}`);
-        } finally {
             setLoading(false);
-        }
-    }, [app]);
-
-    useEffect(() => {
-        fetchLoggers();
-    }, [fetchLoggers]);
-
-    const handleLevelChange = async (loggerPath, newLevel) => {
-        try {
-            await loggerService.updateLogLevel(app, loggerPath, newLevel);
-            await fetchLoggers(); // Refresh the list after update
-        } catch (err) {
-            setError(`Failed to update logger level: ${err.message}`);
         }
     };
 
-    const handleReset = async (loggerPath) => {
+    const resetAllLogLevels = async () => {
         try {
-            await loggerService.updateLogLevel(app, loggerPath, 'INFO');
+            for (const logger of filteredLoggers) {
+                if (originalLevels[logger.path]) {
+                    await loggerService.updateLogLevel(app, logger.path, originalLevels[logger.path]);
+                }
+            }
             await fetchLoggers();
         } catch (err) {
-            setError(`Failed to reset logger: ${err.message}`);
+            setError(`Failed to reset log levels: ${err.message}`);
         }
     };
 
@@ -58,27 +60,87 @@ const LoggerManagement = () => {
         }));
     };
 
-    const filteredLoggers = useMemo(() => {
-        return loggers
-            .filter(logger => {
-                if (filters.classOnly && !logger.name.endsWith('.class')) {
-                    return false;
-                }
-                if (filters.configured && logger.level === 'INFO') {
-                    return false;
-                }
-                return logger.name.toLowerCase().includes(searchTerm.toLowerCase());
-            });
-    }, [loggers, filters.classOnly, filters.configured, searchTerm]);
+    // Add useEffect for initial data loading
+    useEffect(() => {
+        fetchLoggers();
+    }, [fetchLoggers]); // Added fetchLoggers as a dependency
 
-    if (loading) {
-        return <div className="loading">Loading loggers...</div>;
-    }
+    useEffect(() => {
+        let interval;
+        if (timerEndTime) {
+            interval = setInterval(() => {
+                const remaining = timerEndTime - Date.now();
+                if (remaining <= 0) {
+                    setTimeRemaining(null);
+                    clearInterval(interval);
+                } else {
+                    const minutes = Math.floor(remaining / 60000);
+                    const seconds = Math.floor((remaining % 60000) / 1000);
+                    setTimeRemaining({ minutes, seconds });
+                }
+            }, 1000);
+        }
+        return () => clearInterval(interval);
+    }, [timerEndTime]);
+
+    const handleLevelChange = async (loggerPath, newLevel) => {
+        try {
+            await loggerService.updateLogLevel(app, loggerPath, newLevel);
+            
+            // Clear existing timer if any
+            if (activeTimer) {
+                clearTimeout(activeTimer);
+            }
+
+            // Start new timer
+            const timer = setTimeout(async () => {
+                await resetAllLogLevels();
+                setTimerEndTime(null);
+                setActiveTimer(null);
+                setTimeRemaining(null);
+                setLastChangedLogger(null);
+            }, globalTimer * 60000);
+
+            setActiveTimer(timer);
+            setTimerEndTime(new Date(Date.now() + globalTimer * 60000));
+            setLastChangedLogger({ path: loggerPath, level: newLevel });
+            await fetchLoggers();
+        } catch (err) {
+            setError(`Failed to update logger level: ${err.message}`);
+        }
+    };
 
     return (
         <div className="logger-management">
             <BackButton />
             <h2>{app} Logger Management</h2>
+            <div className="global-timer-control">
+                <div className="timer-label">Select required log level duration</div>
+                <select
+                    className="timer-select"
+                    value={globalTimer}
+                    onChange={(e) => setGlobalTimer(parseInt(e.target.value))}
+                >
+                    {timerOptions.map(min => (
+                        <option key={min} value={min}>{min} minute{min > 1 ? 's' : ''}</option>
+                    ))}
+                </select>
+                {timeRemaining && (
+                    <div className="timer-info">
+                        <div className="time-display">
+                            Time remaining: {timeRemaining.minutes}m {timeRemaining.seconds}s
+                        </div>
+                        {lastChangedLogger && (
+                            <div className="level-display">
+                                Changed level: {lastChangedLogger.path.split('.').pop()}: {lastChangedLogger.level}
+                            </div>
+                        )}
+                    </div>
+                )}
+            </div>
+            <div className="reset-button-container">
+                <button className="reset-button" onClick={resetAllLogLevels}>Reset All Log Levels</button>
+            </div>
             {error && (
                 <div className="error-banner">
                     <span className="error-message">{error}</span>
@@ -126,16 +188,14 @@ const LoggerManagement = () => {
                                     {level}
                                 </button>
                             ))}
-                            <button 
-                                className="reset-button"
-                                onClick={() => handleReset(logger.path)}
-                            >
-                                Reset
-                            </button>
                         </div>
                     </div>
                 ))}
             </div>
+            <LoggerPage 
+              app={app}
+              timerEndTime={timerEndTime}
+            />
         </div>
     );
 };
