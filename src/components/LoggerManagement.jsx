@@ -109,8 +109,8 @@ const LoggerManagement = () => {
                 if (loggerPath === 'ROOT') {
                     await resetAllLogLevels();
                 } else {
-                    // Reset only the specific logger to its original level
-                    await loggerService.updateLogLevel(app, loggerPath, originalLevels[loggerPath]);
+                    // Reset only the specific logger to 'INFO' level
+                    await loggerService.updateLogLevel(app, loggerPath, 'INFO');
                 }
                 setTimerEndTime(null);
                 setActiveTimer(null);
@@ -130,8 +130,8 @@ const LoggerManagement = () => {
 
     const handleResetLoggerLevel = async (loggerPath) => {
         try {
-            // Set the log level to 'DEBUG' when the individual reset button is clicked
-            await loggerService.updateLogLevel(app, loggerPath, 'DEBUG');
+            // Set the log level to 'INFO' when the individual reset button is clicked
+            await loggerService.updateLogLevel(app, loggerPath, 'INFO');
             await fetchLoggers(); // Refresh the list to show the updated level from the backend
         } catch (err) {
             setError(`Failed to reset logger level for ${loggerPath}: ${err.message}`);
