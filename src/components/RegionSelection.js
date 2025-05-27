@@ -8,10 +8,8 @@ const RegionSelection = () => {
   const navigate = useNavigate();
 
   const regions = [
-    { id: 'APAC', name: 'Asia Pacific' },
-    { id: 'EMEA', name: 'Europe, Middle East, and Africa' },
-    { id: 'LAC', name: 'Latin America and Caribbean' },
-    { id: 'US', name: 'United States' }
+    { id: 'AZ', name: 'AZ' },
+    { id: 'LAS', name: 'LAS' },
   ];
 
   const handleRegionClick = (regionId) => {

@@ -68,10 +68,10 @@ function LoggerDashboard() {
       return JSON.parse(savedApps);
     }
     return [
-      { id: 'C6.4', name: 'C6.4', description: 'Core services application' },
-      { id: 'C2.4', name: 'C2.4', description: 'API services application' },
-      { id: 'C4', name: 'C4', description: 'Monitoring application' },
-      { id: 'GPDE1.10', name: 'GPDE1.10', description: 'Data processing application' }
+      { id: 'C6.4', name: 'C6.4', description: '' },
+      { id: 'C2.4', name: 'C2.4', description: '' },
+      { id: 'C4', name: 'C4', description: '' },
+      { id: 'GPDE1.10', name: 'GPDE1.10', description: '' }
     ];
   });
 

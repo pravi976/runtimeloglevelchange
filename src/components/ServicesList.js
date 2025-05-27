@@ -123,8 +123,9 @@ function ServicesList() {
           { id: 2, name: 'User Service', description: 'User management operations' }
         ],
         'C4': [
-          { id: 1, name: 'Monitoring Service', description: 'System monitoring and alerts' },
-          { id: 2, name: 'Reporting Service', description: 'Report generation and management' }
+          { id: 1, name: 'Plan Collector', description: 'Consumes Plan Data' },
+          { id: 2, name: 'Manager', description: 'Coordinator b/w collector and processor' },
+          { id: 3, name: 'Plan Processor', description: 'Processes Plan Data Received From Collector' }
         ],
         'GPDE1.10': [
           { id: 1, name: 'Data Integration', description: 'Data integration service' },
