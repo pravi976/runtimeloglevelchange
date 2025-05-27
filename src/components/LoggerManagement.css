@@ -124,16 +124,16 @@
   font-size: 12px;
   font-weight: 500;
   transition: all 0.3s ease;
-  background-color: #f1f3f5;
-  color: #495057;
+  background-color: purple;
+  color: white;
   /* margin-left: 10px; Remove this, as gap in .logger-actions will handle spacing */
 }
 
 .reset-single-logger-button:hover {
-  background-color: #e9ecef;
+  background-color: purple;
   border-color: #ced4da;
-  color: #212529;
-  transform: scale(1.05);
+  color: white;
+  transform: scale(1.15);
 }
 
 .level-button {
