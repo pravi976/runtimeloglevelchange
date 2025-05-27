@@ -8,8 +8,8 @@ const RegionSelection = () => {
   const navigate = useNavigate();
 
   const regions = [
-    { id: 'AZ', name: 'AZ' },
-    { id: 'LAS', name: 'LAS' },
+    { id: 'CLE-AZ1', name: 'CLE-AZ1' },
+    { id: 'CLW-AZ1', name: 'CLW-AZ1' },
   ];
 
   const handleRegionClick = (regionId) => {
