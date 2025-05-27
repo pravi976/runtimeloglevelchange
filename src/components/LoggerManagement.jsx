@@ -60,10 +60,9 @@ const LoggerManagement = () => {
 
     const resetAllLogLevels = async () => {
         try {
-            for (const logger of filteredLoggers) {
-                if (originalLevels[logger.path]) {
-                    await loggerService.updateLogLevel(app, logger.path, originalLevels[logger.path]);
-                }
+            // Only reset the ROOT logger to its original level
+            if (originalLevels['ROOT']) {
+                await loggerService.updateLogLevel(app, 'ROOT', originalLevels['ROOT']);
             }
             await fetchLoggers();
         } catch (err) {
