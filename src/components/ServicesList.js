@@ -35,10 +35,6 @@ function SortableItem({ service, app, onRemove }) {
     position: 'relative'
   };
 
-  const handleRemoveClick = () => {
-    setShowConfirmModal(true);
-  };
-
   const handleConfirmRemove = () => {
     onRemove(service.id);
     setShowConfirmModal(false);
@@ -52,15 +48,6 @@ function SortableItem({ service, app, onRemove }) {
         {...attributes}
         className="app-card"
       >
-        {/* Commented out remove button
-        <button
-          className="remove-button-small"
-          onClick={handleRemoveClick}
-          title="Remove Service"
-        >
-          ×
-        </button>
-        */}
         <div {...listeners} className="drag-handle">
           <h2>{service.name}</h2>
           <p>{service.description}</p>

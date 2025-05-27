@@ -10,7 +10,7 @@ import './App.css';
 
 function App() {
   return (
-    <Router>
+    <Router future={{ v7_relativeSplatPath: true }}>
       <div className="App">
         <header className="App-header">
           <span>CPUDCTV Log Level Management</span>

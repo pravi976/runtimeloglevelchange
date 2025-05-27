@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import BackButton from './BackButton';
 import loggerService from '../services/loggerService';
 import './LoggerManagement.css';
-import LoggerPage from './LoggerPage';
+// Remove unused LoggerPage import
 
 const timerOptions = [1, 2, 3]; // Timer duration options in minutes
 const logLevels = ['ERROR', 'WARN', 'INFO', 'DEBUG', 'TRACE']; // Available log levels
@@ -42,7 +42,7 @@ const LoggerManagement = () => {
             setError(`Failed to fetch loggers: ${err.message}`);
             setLoading(false);
         }
-    }, [app]);
+    }, [app, setLoading]); // Add setLoading to the dependency array
 
     useEffect(() => {
         const filtered = loggers.filter(logger => {
@@ -142,96 +142,102 @@ const LoggerManagement = () => {
         <div className="logger-management">
             <BackButton />
             <h2>{app} Logger Management</h2>
-            <div className="header">
-                <div className="filters">
-                    <label>
-                        <input 
-                            type="checkbox" 
-                            checked={filters.classOnly}
-                            onChange={() => handleFilterChange('classOnly')}
-                        /> class only
-                    </label>
-                    <label>
-                        <input 
-                            type="checkbox" 
-                            checked={filters.configured}
-                            onChange={() => handleFilterChange('configured')}
-                        /> configured
-                    </label>
-                </div>
-                <div className="search-box">
-                    <input 
-                        type="text" 
-                        placeholder="Filter..." 
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                    />
-                </div>
-            </div>
-            <div className="global-timer-control">
-                <div className="timer-label">Select required log level duration</div>
-                <select
-                    className="timer-select"
-                    value={globalTimer}
-                    onChange={(e) => setGlobalTimer(parseInt(e.target.value))}
-                >
-                    {timerOptions.map(min => (
-                        <option key={min} value={min}>{min} minute{min > 1 ? 's' : ''}</option>
-                    ))}
-                </select>
-                {timeRemaining && (
-                    <div className="timer-info">
-                        <div className="time-display">
-                            Time remaining: {timeRemaining.minutes}m {timeRemaining.seconds}s
+            {loading ? (
+                <div className="loading">Loading loggers...</div>
+            ) : (
+                <>
+                    <div className="header">
+                        <div className="filters">
+                            <label>
+                                <input 
+                                    type="checkbox" 
+                                    checked={filters.classOnly}
+                                    onChange={() => handleFilterChange('classOnly')}
+                                /> class only
+                            </label>
+                            <label>
+                                <input 
+                                    type="checkbox" 
+                                    checked={filters.configured}
+                                    onChange={() => handleFilterChange('configured')}
+                                /> configured
+                            </label>
                         </div>
-                        {lastChangedLogger && (
-                            <div className="level-display">
-                                Changed level: {lastChangedLogger.path.split('.').pop()}: {lastChangedLogger.level}
+                        <div className="search-box">
+                            <input 
+                                type="text" 
+                                placeholder="Filter..." 
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                            />
+                        </div>
+                    </div>
+                    <div className="global-timer-control">
+                        <div className="timer-label">Select required log level duration</div>
+                        <select
+                            className="timer-select"
+                            value={globalTimer}
+                            onChange={(e) => setGlobalTimer(parseInt(e.target.value))}
+                        >
+                            {timerOptions.map(min => (
+                                <option key={min} value={min}>{min} minute{min > 1 ? 's' : ''}</option>
+                            ))}
+                        </select>
+                        {timeRemaining && (
+                            <div className="timer-info">
+                                <div className="time-display">
+                                    Time remaining: {timeRemaining.minutes}m {timeRemaining.seconds}s
+                                </div>
+                                {lastChangedLogger && (
+                                    <div className="level-display">
+                                        Changed level: {lastChangedLogger.path.split('.').pop()}: {lastChangedLogger.level}
+                                    </div>
+                                )}
                             </div>
                         )}
                     </div>
-                )}
-            </div>
-            <div className="reset-button-container">
-                <button className="reset-button" onClick={resetAllLogLevels}>Reset All Log Levels</button>
-            </div>
-            {error && (
-                <div className="error-banner">
-                    <span className="error-message">{error}</span>
-                    <button className="retry-button" onClick={fetchLoggers}>Retry</button>
-                </div>
-            )}
-            {/* <LoggerPage 
-                app={app}
-                timerEndTime={timerEndTime}
-            /> */}
-            <div className="loggers-list">
-                {filteredLoggers.map((logger, index) => (
-                    <div key={`${logger.path}-${index}`} className="logger-row">
-                        <span className="logger-name">{logger.name}</span>
-                        <div className="logger-actions"> {/* New container for buttons */}
-                            <div className="level-buttons">
-                                {logLevels.map((level) => (
-                                    <button
-                                        key={`${logger.path}-${level}`}
-                                        data-level={level}
-                                        className={`level-button ${logger.level === level ? 'active' : ''}`}
-                                        onClick={() => handleLevelChange(logger.path, level)}
-                                    >
-                                        {level}
-                                    </button>
-                                ))}
-                            </div>
-                            <button
-                                className="reset-single-logger-button"
-                                onClick={() => handleResetLoggerLevel(logger.path)}
-                            >
-                                Reset
-                            </button>
-                        </div>
+                    <div className="reset-button-container">
+                        <button className="reset-button" onClick={resetAllLogLevels}>Reset All Log Levels</button>
                     </div>
-                ))}
-            </div>
+                    {error && (
+                        <div className="error-banner">
+                            <span className="error-message">{error}</span>
+                            <button className="retry-button" onClick={fetchLoggers}>Retry</button>
+                        </div>
+                    )}
+                    {/* <LoggerPage 
+                        app={app}
+                        timerEndTime={timerEndTime}
+                    /> */}
+                    <div className="loggers-list">
+                        {filteredLoggers.map((logger, index) => (
+                            <div key={`${logger.path}-${index}`} className="logger-row">
+                                <span className="logger-name">{logger.name}</span>
+                                <div className="logger-actions"> {/* New container for buttons */}
+                                    <div className="level-buttons">
+                                        {logLevels.map((level) => (
+                                            <button
+                                                key={`${logger.path}-${level}`}
+                                                data-level={level}
+                                                className={`level-button ${logger.level === level ? 'active' : ''}`}
+                                                onClick={() => handleLevelChange(logger.path, level)}
+                                            >
+                                                {level}
+                                            </button>
+                                        ))}
+                                    </div>
+                                    <button
+                                        className="reset-single-logger-button"
+                                        onClick={() => handleResetLoggerLevel(logger.path)}
+                                    >
+                                        Reset
+                                    </button>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </>
+            )}
         </div>
     );
 };
