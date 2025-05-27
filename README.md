@@ -253,3 +253,58 @@ The project includes various npm scripts for:
 - Linting ( npm run lint )
 - Code coverage ( npm run test:coverage )
 This application provides a solid foundation for log level management but could benefit from additional features and improvements in testing and error handling.
+
+About This Application:
+
+This application is a Runtime Log Level Management System that solves several critical challenges in application logging and debugging:
+
+### Core Purpose
+The application provides a centralized web interface for dynamically managing log levels across different components of a distributed system without requiring application restarts.
+
+### Key Features
+1. Hierarchical Navigation
+   
+   - Dashboard → Services → Environments → Regions → Logger Management
+   - Allows managing logs across different deployment environments and regions
+2. Dynamic Log Level Control
+   
+   - Real-time adjustment of log levels (ERROR, WARN, INFO, DEBUG, TRACE)
+   - Supports both individual and global logger configurations
+   - Temporary log level changes with automatic reset functionality
+3. Smart Filtering
+   
+   - Search functionality for specific loggers
+   - Filter options for class-only loggers
+   - Filter for configured/unconfigured loggers
+4. Timer-based Reset
+   
+   - Automatic reset of log levels after a specified duration
+   - Configurable timer options (1, 2, or 3 minutes)
+   - Prevents forgotten debug logs in production
+### Use Cases
+1. Production Debugging
+   
+   - Problem: Need to increase log verbosity in production without deployment
+   - Solution: Temporarily increase log levels for specific components
+   - Benefit: Quick troubleshooting without service interruption
+2. Performance Optimization
+   
+   - Problem: Identify performance bottlenecks in specific regions/environments
+   - Solution: Selectively enable DEBUG logs for performance-critical components
+   - Benefit: Targeted debugging without overwhelming log storage
+3. Security Incident Response
+   
+   - Problem: Need detailed logs during security investigations
+   - Solution: Quickly enable TRACE level logging for security-sensitive components
+   - Benefit: Rapid response to security incidents
+4. Development Support
+   
+   - Problem: Different logging needs across environments
+   - Solution: Environment-specific log level management
+   - Benefit: Appropriate logging levels for each stage of development
+5. Resource Management
+   
+   - Problem: Excessive logging impacting system performance
+   - Solution: Fine-grained control over log levels with automatic reset
+   - Benefit: Optimal balance between debugging needs and system performance
+This application significantly improves the operational efficiency of development and support teams by providing a user-friendly interface for managing log levels across complex distributed systems.
