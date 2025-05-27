@@ -12,7 +12,7 @@ function App() {
     <Router>
       <div className="App">
         <header className="App-header">
-          <span className="running-text">Fedex Log Level Management</span>
+          <span>CPUDCTV Log Level Management</span>
           <Navigation />
         </header>
         <main>
