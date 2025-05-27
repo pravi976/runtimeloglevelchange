@@ -75,8 +75,8 @@
 
 .logger-row {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  justify-content: space-between; /* Distribute items evenly */
+  align-items: center; /* Vertically align items */
   padding: 16px 24px;
   transition: all 0.2s ease;
   background-color: white;
@@ -101,6 +101,12 @@
   letter-spacing: 0.3px;
 }
 
+.logger-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Space between level buttons and the new reset button */
+}
+
 .level-buttons {
   display: flex;
   gap: 8px;
@@ -108,6 +114,26 @@
   padding: 4px;
   border-radius: 6px;
   background-color: #f8f9fa;
+}
+
+.reset-single-logger-button {
+  padding: 6px 12px;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  background-color: #f1f3f5;
+  color: #495057;
+  /* margin-left: 10px; Remove this, as gap in .logger-actions will handle spacing */
+}
+
+.reset-single-logger-button:hover {
+  background-color: #e9ecef;
+  border-color: #ced4da;
+  color: #212529;
+  transform: scale(1.05);
 }
 
 .level-button {

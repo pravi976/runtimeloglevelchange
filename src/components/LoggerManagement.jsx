@@ -106,19 +106,35 @@ const LoggerManagement = () => {
 
             // Start new timer
             const timer = setTimeout(async () => {
-                await resetAllLogLevels();
+                if (loggerPath === 'ROOT') {
+                    await resetAllLogLevels();
+                } else {
+                    // Reset only the specific logger to its original level
+                    await loggerService.updateLogLevel(app, loggerPath, originalLevels[loggerPath]);
+                }
                 setTimerEndTime(null);
                 setActiveTimer(null);
                 setTimeRemaining(null);
                 setLastChangedLogger(null);
+                await fetchLoggers(); // Fetch latest data after timer reset
             }, globalTimer * 60000);
 
             setActiveTimer(timer);
             setTimerEndTime(new Date(Date.now() + globalTimer * 60000));
             setLastChangedLogger({ path: loggerPath, level: newLevel });
-            await fetchLoggers();
+            await fetchLoggers(); // Fetch latest data immediately after level change
         } catch (err) {
             setError(`Failed to update logger level: ${err.message}`);
+        }
+    };
+
+    const handleResetLoggerLevel = async (loggerPath) => {
+        try {
+            // Set the log level to 'DEBUG' when the individual reset button is clicked
+            await loggerService.updateLogLevel(app, loggerPath, 'DEBUG');
+            await fetchLoggers(); // Refresh the list to show the updated level from the backend
+        } catch (err) {
+            setError(`Failed to reset logger level for ${loggerPath}: ${err.message}`);
         }
     };
 
@@ -193,22 +209,29 @@ const LoggerManagement = () => {
                 {filteredLoggers.map((logger, index) => (
                     <div key={`${logger.path}-${index}`} className="logger-row">
                         <span className="logger-name">{logger.name}</span>
-                        <div className="level-buttons">
-                            {logLevels.map((level) => (
-                                <button
-                                    key={`${logger.path}-${level}`}
-                                    data-level={level}
-                                    className={`level-button ${logger.level === level ? 'active' : ''}`}
-                                    onClick={() => handleLevelChange(logger.path, level)}
-                                >
-                                    {level}
-                                </button>
-                            ))}
+                        <div className="logger-actions"> {/* New container for buttons */}
+                            <div className="level-buttons">
+                                {logLevels.map((level) => (
+                                    <button
+                                        key={`${logger.path}-${level}`}
+                                        data-level={level}
+                                        className={`level-button ${logger.level === level ? 'active' : ''}`}
+                                        onClick={() => handleLevelChange(logger.path, level)}
+                                    >
+                                        {level}
+                                    </button>
+                                ))}
+                            </div>
+                            <button
+                                className="reset-single-logger-button"
+                                onClick={() => handleResetLoggerLevel(logger.path)}
+                            >
+                                Reset
+                            </button>
                         </div>
                     </div>
                 ))}
             </div>
-            
         </div>
     );
 };

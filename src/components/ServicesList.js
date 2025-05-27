@@ -52,6 +52,7 @@ function SortableItem({ service, app, onRemove }) {
         {...attributes}
         className="app-card"
       >
+        {/* Commented out remove button
         <button
           className="remove-button-small"
           onClick={handleRemoveClick}
@@ -59,6 +60,7 @@ function SortableItem({ service, app, onRemove }) {
         >
           ×
         </button>
+        */}
         <div {...listeners} className="drag-handle">
           <h2>{service.name}</h2>
           <p>{service.description}</p>
@@ -198,14 +200,24 @@ function ServicesList() {
   return (
     <div className="services-page">
       <BackButton />
+      {/* Commented out Add New Service button
+      <div className="add-service-container">
+        <button 
+          className="add-service-button"
+          onClick={() => setShowAddForm(true)}
+        >
+          + Add New Service
+        </button>
+      </div>
+      */}
       <div className="page-header">
         <h1>{app} Services</h1>
-        <button 
+        {/* <button 
           className="add-service-button" 
           onClick={() => setShowAddForm(true)}
         >
           Add New Service
-        </button>
+        </button> */}
       </div>
 
       {showAddForm && (

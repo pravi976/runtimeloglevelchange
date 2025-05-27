@@ -5,9 +5,9 @@ class LoggerService {
   parseLoggerData(data) {
     // Convert the actuator response format to our app's format
     return Object.entries(data.loggers).map(([name, config]) => ({
-      name: name.startsWith('_') ? name.substring(1) : name,
+      name: name,
       level: config.effectiveLevel,
-      path: name.startsWith('_') ? name.substring(1) : name
+      path: name
     }));
   }
 
