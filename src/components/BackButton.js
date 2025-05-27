@@ -4,7 +4,7 @@ import './BackButton.css';
 
 function BackButton() {
   const navigate = useNavigate();
-  const { app, serviceId } = useParams();
+  const { app, serviceId, environmentId } = useParams();
   const location = useLocation();
 
   const handleBack = (e) => {
@@ -17,9 +17,12 @@ function BackButton() {
       return;
     } else if (location.pathname.includes('/logs')) {
       // From logs page to regions page
-      navigate(`/logger/${app}/service/${serviceId}/regions`);
+      navigate(`/logger/${app}/service/${serviceId}/environment/${environmentId}/regions`);
     } else if (location.pathname.includes('/regions')) {
-      // From regions page to services page
+      // From regions page to environments page
+      navigate(`/logger/${app}/service/${serviceId}/environments`);
+    } else if (location.pathname.includes('/environments')) {
+      // From environments page to services page
       navigate(`/logger/${app}/services`);
     } else if (location.pathname.includes('/services')) {
       // From services page to dashboard

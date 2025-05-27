@@ -68,7 +68,7 @@ function SortableItem({ service, app, onRemove }) {
         <div className="button-container">
           <button
             className="primary-button"
-            onClick={() => navigate(`/logger/${app}/service/${service.id}/regions`)}
+            onClick={() => navigate(`/logger/${app}/service/${service.id}/environments`)}
           >
             Click here to view/change log level
           </button>
