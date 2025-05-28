@@ -7,7 +7,8 @@ class LoggerService {
     return Object.entries(data.loggers).map(([name, config]) => ({
       name: name,
       level: config.effectiveLevel,
-      path: name
+      path: name,
+      configured: config.configuredLevel !== null && config.configuredLevel !== undefined
     }));
   }
 

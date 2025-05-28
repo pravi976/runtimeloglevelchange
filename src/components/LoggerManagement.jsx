@@ -47,7 +47,10 @@ const LoggerManagement = () => {
     useEffect(() => {
         const filtered = loggers.filter(logger => {
             const matchesSearch = logger.path.toLowerCase().includes(searchTerm.toLowerCase());
-            const matchesClassOnly = !filters.classOnly || logger.path.toLowerCase().includes('class');
+            const matchesClassOnly = !filters.classOnly || (
+                logger.path.toLowerCase().includes('.class') ||
+                logger.path.toLowerCase().includes('class.')
+            );
             const matchesConfigured = !filters.configured || logger.configured === true;
             return matchesSearch && matchesClassOnly && matchesConfigured;
         });
